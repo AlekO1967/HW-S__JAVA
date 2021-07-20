@@ -22,14 +22,13 @@ public class HomeWorkApp {
         int a = scanner.nextInt();
         System.out.println("Enter please second number");
         int b = scanner.nextInt();
-        int c = a + b;
 
-        if (c > 0) {
-            System.out.println("This amount is positive " + c);
-        } else if (c == 0) {
-            System.out.println("This amount is " + c);
+        if (a + b > 0) {
+            System.out.println("This amount is positive " + (a + b));
+        } else if (a + b == 0) {
+            System.out.println("This amount is " + (a + b));
         } else {
-            System.out.println("This amount is negative " + c);
+            System.out.println("This amount is negative " + (a + b));
         }
     }
 
