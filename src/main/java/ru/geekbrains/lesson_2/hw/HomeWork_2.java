@@ -10,7 +10,7 @@ public class HomeWork_2 {
 
         System.out.println("********************");
 
-        String result = (PositiveOrNegative2(-1967)) ? "false" : "true";
+        String result = (PositiveOrNegative2(-1967)) ? "true" : "false";
         System.out.println(result);
 
         System.out.println("********************");
@@ -36,8 +36,8 @@ public class HomeWork_2 {
         }
     }
 
-    public static boolean PositiveOrNegative2(int a) {
-        return a >= 0;
+    public static boolean PositiveOrNegative2(int variable) {
+        return variable < 0;
     }
 
     public static void MethodPrintResultLoop(String value, int count) {
@@ -49,4 +49,6 @@ public class HomeWork_2 {
     public static boolean HowIsYear(int year) {
         return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
     }
+
 }
+
