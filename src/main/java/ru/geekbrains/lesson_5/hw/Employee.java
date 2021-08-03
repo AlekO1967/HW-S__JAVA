@@ -1,12 +1,12 @@
 package ru.geekbrains.lesson_5.hw;
 
 public class Employee {
-    String fullName;
-    String position;
-    String eMail;
-    String phone;
-    int salary;
-    int age;
+    private String fullName;
+    private String position;
+    private String eMail;
+    private String phone;
+    private int salary;
+    private int age;
 
     public Employee(String fullName, String position, String eMail, String phone, int salary, int age) {
         this.fullName = fullName;
@@ -22,4 +22,9 @@ public class Employee {
                 "; Номер телефона: " + phone + "; Заработная плата: " + salary + "; Возраст: " + age);
 
     }
+
+    public int getAge() {
+        return age;
+    }
+
 }
