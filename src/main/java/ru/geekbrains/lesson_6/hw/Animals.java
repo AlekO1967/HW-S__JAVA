@@ -30,7 +30,7 @@ public class Animals {
     }
 
     void swim(int length) {
-        if (distanceSwim + length < maxRun) {
+        if (distanceSwim + length < maxSwim) {
             distanceSwim += length;
             System.out.println(breed + " " + name + " проплыла " + distanceSwim+ " метров");
         } else {
