@@ -27,6 +27,10 @@ public class GameWindow extends JFrame {
     private JLabel playerHealthInfo;
     private JLabel playerStepsInfo;
 
+    private JPanel enemyInfo;
+    private JLabel enemyType;
+    private JLabel enemyHealthInfo;
+
     private JPanel playerAction;
     private JButton moveUp;
     private JButton moveDown;
@@ -62,17 +66,22 @@ public class GameWindow extends JFrame {
         prepareGameControls();
         prepareGameInfo();
         preparePlayerInfo();
+        prepareEnemyInfo();
         preparePlayerAction();
         prepareGameActionsLog();
 
         gui.add(gameControl);
         gui.add(gameInfo);
+        gui.add(playerInfo);
+        gui.add(enemyInfo);
+        gui.add(playerAction);
     }
 
 
     private void prepareGameControls() {
         gameControl = new JPanel();
         gameControl.setLayout(new GridLayout(3, 1));
+
         btnStartGame = new JButton("Start Game!"); // создаем кнопки
         btnExitGame = new JButton("Exit Game! ");
         btnRestartGame = new JButton("Restart Game");
@@ -81,12 +90,12 @@ public class GameWindow extends JFrame {
         gameControl.add(btnExitGame);
         gameControl.add(btnRestartGame);
 
-
     }
 
     private void prepareGameInfo() {
         gameInfo = new JPanel();
         gameInfo.setLayout(new GridLayout(4, 1));
+        gameInfo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         gameRoundInfo = new JLabel("Current round: ");
         mapSizeInfo = new JLabel("Current size map: ");
@@ -97,14 +106,59 @@ public class GameWindow extends JFrame {
         gameInfo.add(mapSizeInfo);
         gameInfo.add(countEnemyInfo);
 
-
     }
 
     private void preparePlayerInfo() {
+        playerInfo = new JPanel();
+        playerInfo.setLayout(new GridLayout(3, 1));
+        playerInfo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        playerHealthInfo = new JLabel("Current health: -");
+        playerStepsInfo = new JLabel("Current step: -");
+
+        playerInfo.add(new JLabel("***** Player Info *****"));
+        playerInfo.add(playerHealthInfo);
+        playerInfo.add(playerStepsInfo);
 
     }
 
+    private void prepareEnemyInfo() {
+        enemyInfo = new JPanel();
+        enemyInfo.setLayout(new GridLayout(3, 1));
+        enemyInfo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        enemyType = new JLabel("Enemy type: -");
+        enemyHealthInfo = new JLabel("Health enemy: -");
+
+        enemyInfo.add(new JLabel("***** Enemy Info *****"));
+        enemyInfo.add(enemyType);
+        enemyInfo.add(enemyHealthInfo);
+    }
+
     private void preparePlayerAction() {
+        playerAction = new JPanel();
+        playerAction.setLayout(new GridLayout(3, 3));
+        playerAction.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+        moveUp = new JButton("\uD83E\uDC81");
+        moveDown = new JButton("\uD83E\uDC83");
+        moveLeft = new JButton("\uD83E\uDC80");
+        moveRight = new JButton("\uD83E\uDC82");
+        moveUpRight = new JButton("\uD83E\uDC85");
+        moveDownRight = new JButton("\uD83E\uDC86");
+        moveUpLeft = new JButton("\uD83E\uDC84");
+        moveDownLeft = new JButton("\uD83E\uDC8");
+
+        playerAction.add(moveUpLeft);
+        playerAction.add(moveUp);
+        playerAction.add(moveUpRight);
+        playerAction.add(moveLeft);
+        playerAction.add(new JButton());
+        playerAction.add(moveRight);
+        playerAction.add(moveDownLeft);
+        playerAction.add(moveDown);
+        playerAction.add(moveDownRight);
+
 
     }
 
@@ -117,7 +171,7 @@ public class GameWindow extends JFrame {
         setLocation(winPozX, winPozY);  // вызываем метод создания окна с установленными размерами
         setSize(winWidth, winHeight);  // вызываем метод позиционирования окна на экране
         setTitle("Graphic Interface Game");  // выводим в окно Title
-        setResizable(false);  // запрещаем пользователю изменят размер окна.
+        setResizable(false);  // запрещаем пользователю изменять размер окна.
     }
 
 }
