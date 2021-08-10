@@ -55,9 +55,9 @@ public class GameWindow extends JFrame {
         setVisible(true); // вызываем метод открытия окна
     }
 
-    private void prepareGUI(){       // создаём метод для управления графическим интерфейсом пользователя (GUI)
+    private void prepareGUI() {       // создаём метод для управления графическим интерфейсом пользователя (GUI)
         gui = new JPanel();
-        gui.setLayout(new GridLayout(5,1));
+        gui.setLayout(new GridLayout(5, 1));
 
         prepareGameControls();
         prepareGameInfo();
@@ -66,13 +66,13 @@ public class GameWindow extends JFrame {
         prepareGameActionsLog();
 
         gui.add(gameControl);
+        gui.add(gameInfo);
     }
 
 
     private void prepareGameControls() {
         gameControl = new JPanel();
-        gameControl.setLayout(new GridLayout(3,1));
-
+        gameControl.setLayout(new GridLayout(3, 1));
         btnStartGame = new JButton("Start Game!"); // создаем кнопки
         btnExitGame = new JButton("Exit Game! ");
         btnRestartGame = new JButton("Restart Game");
@@ -85,6 +85,18 @@ public class GameWindow extends JFrame {
     }
 
     private void prepareGameInfo() {
+        gameInfo = new JPanel();
+        gameInfo.setLayout(new GridLayout(4, 1));
+
+        gameRoundInfo = new JLabel("Current round: ");
+        mapSizeInfo = new JLabel("Current size map: ");
+        countEnemyInfo = new JLabel("Current enemy count: ");
+
+        gameInfo.add(new JLabel("***** Game Info *****"));
+        gameInfo.add(gameRoundInfo);
+        gameInfo.add(mapSizeInfo);
+        gameInfo.add(countEnemyInfo);
+
 
     }
 
