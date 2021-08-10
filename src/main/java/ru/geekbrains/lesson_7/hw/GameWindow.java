@@ -147,7 +147,7 @@ public class GameWindow extends JFrame {
         moveUpRight = new JButton("\uD83E\uDC85");
         moveDownRight = new JButton("\uD83E\uDC86");
         moveUpLeft = new JButton("\uD83E\uDC84");
-        moveDownLeft = new JButton("\uD83E\uDC8");
+        moveDownLeft = new JButton("\uD83E\uDC87");
 
         playerAction.add(moveUpLeft);
         playerAction.add(moveUp);
