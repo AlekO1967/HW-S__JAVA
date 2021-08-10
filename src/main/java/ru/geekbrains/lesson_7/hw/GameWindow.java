@@ -5,10 +5,10 @@ import java.awt.*;
 
 public class GameWindow extends JFrame {
 
-    private int winWidth = 800;  // задаем размеры окна,
-    private int winHeight = 600;  // размеры окна указываются в пикселях.
-    private int winPozX = 350;  // задаём начальную координату окна по оси X
-    private int winPozY = 100;  // задаём начальную координату окна по оси Y
+    private int winWidth = 1024;  // задаем размеры окна,
+    private int winHeight = 768;  // размеры окна указываются в пикселях.
+    private int winPozX = 250;  // задаём начальную координату окна по оси X
+    private int winPozY = 25;  // задаём начальную координату окна по оси Y
 
     private GameMap map; // создаём переменную GameMap
     private JPanel gui;
@@ -61,7 +61,7 @@ public class GameWindow extends JFrame {
 
     private void prepareGUI() {       // создаём метод для управления графическим интерфейсом пользователя (GUI)
         gui = new JPanel();
-        gui.setLayout(new GridLayout(5, 1));
+        gui.setLayout(new GridLayout(6, 1));
 
         prepareGameControls();
         prepareGameInfo();
@@ -75,6 +75,7 @@ public class GameWindow extends JFrame {
         gui.add(playerInfo);
         gui.add(enemyInfo);
         gui.add(playerAction);
+        gui.add(areaForGameLogs, BorderLayout.SOUTH);
     }
 
 
@@ -153,17 +154,19 @@ public class GameWindow extends JFrame {
         playerAction.add(moveUp);
         playerAction.add(moveUpRight);
         playerAction.add(moveLeft);
-        playerAction.add(new JButton());
+        playerAction.add(new JPanel());
         playerAction.add(moveRight);
         playerAction.add(moveDownLeft);
         playerAction.add(moveDown);
         playerAction.add(moveDownRight);
 
-
     }
 
     private void prepareGameActionsLog() {
-
+        gameLogs = new JTextArea("Current logs game");
+        areaForGameLogs = new JScrollPane(gameLogs); // устанавливаем управление, чтобы ScrollPane управляла GameLogs
+        gameLogs.setEditable(false); // запрещаем редактирование логов, gameLogs только для чтения
+        gameLogs.setLineWrap(true); // устанавливаем запись каждого слова лога в отдельную строку
     }
 
     private void prepareWindow() {
