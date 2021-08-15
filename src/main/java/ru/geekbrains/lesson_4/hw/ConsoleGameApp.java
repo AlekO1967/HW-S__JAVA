@@ -12,8 +12,8 @@ public class ConsoleGameApp {
     public static char[][] invisibleMap; // в игре существует невидимая копия карты на которой располагаются враги
     public static int widthMap; // у карты есть ширина
     public static int heightMap; // и высота
-    public static int minMapSize = 4; // минимальное количество ячеек в карте
-    public static int maxMapSize = 5; // максимальное количество ячеек в карте.
+    public static int minMapSize = 5; // минимальное количество ячеек в карте
+    public static int maxMapSize = 7; // максимальное количество ячеек в карте.
 
     // опишем параметры для создания игрока
     public static char player = '@'; // создаём символ видимости игрока
@@ -21,7 +21,7 @@ public class ConsoleGameApp {
     public static int powerPointPlayer = 30; // задаём уровень мощности нанесения урона
     public static int positionPlayerX; // координата игрока по Х
     public static int positionPlayerY; // координата игрока по У
-    public static boolean setRandomPositionPlayer = false;
+    public static boolean setRandomStartPositionPlayer = true;
 
     // опишем параметры движения игрока по карте
     // особенность этих переменных в том, что они всегда должны быть постоянными,
@@ -48,7 +48,7 @@ public class ConsoleGameApp {
 
     public static void main(String[] args) {
         createMap();
-        createPlayer(setRandomPositionPlayer);
+        createPlayer(setRandomStartPositionPlayer);
         printMap();
 
     }
@@ -83,16 +83,16 @@ public class ConsoleGameApp {
         System.out.println("*************************");
     }
 
-    // создаём игрока
+    // размещаем игрока на карте
     public static void createPlayer(boolean randomPositionPlayer){
-        if(randomPositionPlayer){
+        if(randomPositionPlayer){ // если передаём в метод true, то игрок размещается на карте рэндомно
         positionPlayerX = randomRange(0, widthMap - 1);
         positionPlayerY = randomRange(0, heightMap - 1);
-        } else {
+        } else { // если передаём в метод false, то игрок размещается в центре карты
             positionPlayerX = widthMap / 2;
             positionPlayerY = heightMap / 2;
         }
-        map[positionPlayerX][positionPlayerY] = player;
+        map[positionPlayerY][positionPlayerX] = player;
     }
 
     // создаём метод для генерации числа в пределах граничных значений
