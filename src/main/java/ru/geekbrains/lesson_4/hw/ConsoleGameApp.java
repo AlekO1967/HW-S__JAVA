@@ -38,8 +38,8 @@ public class ConsoleGameApp {
     public static char enemy = 'E'; // создаём символ видимости игрока
     public static int healthEnemy; // задаём уровень здоровья игрока
     public static int powerEnemy; // задаём уровень мощности нанесения урона
-    public static int powerEnemyMin = 15; // координата игрока по Х
-    public static int powerEnemyMax = 30; // координата игрока по Y
+    public static int powerEnemyMin = 15; // минимальный уровень нанесения урона
+    public static int powerEnemyMax = 30; // максимальный уровень нанесения урона
 
     // опишем, как будем отмечать посещённые ячейки
     public static char readyCell = '*'; // пройденная ячейка
