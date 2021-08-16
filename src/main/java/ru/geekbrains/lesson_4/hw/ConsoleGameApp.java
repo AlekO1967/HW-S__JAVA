@@ -73,7 +73,7 @@ public class ConsoleGameApp {
     }
 
     // создаём метод прорисовки карты в консоли, для этого используем вложенные циклы for
-    public static void printMap(){
+    public static void printMap() {
         System.out.println("***** ТЕКУЩАЯ КАРТА *****");
         for (int y = 0; y < heightMap; y++) {
             for (int x = 0; x < widthMap; x++) {
@@ -85,10 +85,10 @@ public class ConsoleGameApp {
     }
 
     // размещаем игрока на карте
-    public static void createPlayer(boolean randomPositionPlayer){
-        if(randomPositionPlayer){ // если передаём в метод true, то игрок размещается на карте рэндомно
-        positionPlayerX = randomRange(0, widthMap - 1);
-        positionPlayerY = randomRange(0, heightMap - 1);
+    public static void createPlayer(boolean randomPositionPlayer) {
+        if (randomPositionPlayer) { // если передаём в метод true, то игрок размещается на карте рэндомно
+            positionPlayerX = randomRange(0, widthMap - 1);
+            positionPlayerY = randomRange(0, heightMap - 1);
         } else { // если передаём в метод false, то игрок размещается в центре карты
             positionPlayerX = widthMap / 2;
             positionPlayerY = heightMap / 2;
@@ -97,16 +97,17 @@ public class ConsoleGameApp {
     }
 
     // размещаем на карте врага (врагов)
-    public static void createEnemies(){
+    public static void createEnemies() {
         healthEnemy = randomRange(valueEnemyMin, valueEnemyMax); // генерируем уровень здоровья врага
         powerEnemy = randomRange(valueEnemyMin, valueEnemyMax); // генерируем силу нанесения урона врагом
 
-        int enemyPozX; // объявляем переменные в которые передадим координаты врагв
+        int enemyPozX; // объявляем переменные в которые передадим координаты врага
         int enemyPozY;
 
         int countEnemies = (maxMapSize + minMapSize) / 5; // задаём количество врагов на карте в зависимости от размеров карты
-         // расставляем врагов на карте применяя цикл for и do-while, для того чтобы исключить расположение игрока и врага в одной и той же ячейке
+        // расставляем врагов на карте применяя цикл for
         for (int i = 0; i < countEnemies; i++) {
+            // и do-while, для того чтобы исключить расположение игрока и врага в одной и той же ячейке
             do {
                 enemyPozX = random.nextInt(widthMap);
                 enemyPozY = random.nextInt(heightMap);
@@ -119,13 +120,11 @@ public class ConsoleGameApp {
     }
 
 
-
-
     // создаём метод для генерации числа в пределах граничных значений
-    public static int randomRange (int min, int max) {
+    public static int randomRange(int min, int max) {
         int diff = max - min;
-        int value = random.nextInt(diff +1);
-        return min + value ;
+        int value = random.nextInt(diff + 1);
+        return min + value;
     }
 
 }
