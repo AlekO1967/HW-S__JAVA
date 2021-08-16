@@ -39,8 +39,8 @@ public class ConsoleGameApp {
     public static char enemy = 'E'; // создаём символ видимости игрока
     public static int healthEnemy; // задаём уровень здоровья игрока
     public static int powerEnemy; // задаём уровень мощности нанесения урона
-    public static int powerEnemyMin = 15; // минимальный уровень нанесения урона
-    public static int powerEnemyMax = 30; // максимальный уровень нанесения урона
+    public static int valueEnemyMin = 15; // минимальный уровень параметров врага
+    public static int valueEnemyMax = 30; // максимальный уровень параметров врага
 
     // опишем, как будем отмечать посещённые ячейки
     public static char readyCell = '*'; // пройденная ячейка
@@ -49,6 +49,7 @@ public class ConsoleGameApp {
     public static void main(String[] args) {
         createMap();
         createPlayer(setRandomStartPositionPlayer);
+        createEnemies();
         printMap();
 
     }
@@ -94,6 +95,31 @@ public class ConsoleGameApp {
         }
         map[positionPlayerY][positionPlayerX] = player;
     }
+
+    // размещаем на карте врага (врагов)
+    public static void createEnemies(){
+        healthEnemy = randomRange(valueEnemyMin, valueEnemyMax); // генерируем уровень здоровья врага
+        powerEnemy = randomRange(valueEnemyMin, valueEnemyMax); // генерируем силу нанесения урона врагом
+
+        int enemyPozX; // объявляем переменные в которые передадим координаты врагв
+        int enemyPozY;
+
+        int countEnemies = (maxMapSize + minMapSize) / 5; // задаём количество врагов на карте в зависимости от размеров карты
+         // расставляем врагов на карте применяя цикл for и do-while, для того чтобы исключить расположение игрока и врага в одной и той же ячейке
+        for (int i = 0; i < countEnemies; i++) {
+            do {
+                enemyPozX = random.nextInt(widthMap);
+                enemyPozY = random.nextInt(heightMap);
+            } while (positionPlayerX == enemyPozX && positionPlayerY == enemyPozY);
+
+            invisibleMap[enemyPozY][enemyPozX] = enemy;
+        }
+        System.out.println("Количество врагов на карте: " + countEnemies + ". Уровень здоровья врага: " + healthEnemy +
+                ". Уровень наносимого урона: " + powerEnemy);
+    }
+
+
+
 
     // создаём метод для генерации числа в пределах граничных значений
     public static int randomRange (int min, int max) {
