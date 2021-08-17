@@ -175,8 +175,7 @@ public class ConsoleGameApp {
             }
         } while (!isValidNextMove(currentY, currentX, positionPlayerY, positionPlayerX));
 
-        map[positionPlayerY][positionPlayerX] = player;
-        map[currentY][currentX] = readyCell;
+        playerActionAfterMove(currentY, currentX, positionPlayerY, positionPlayerX);
     }
 
     // проверка нахождения игрока в пределах карты
@@ -194,6 +193,20 @@ public class ConsoleGameApp {
         }
     }
 
+    // создаём метод действий игрока после совершения передвижения по карте
+    public static void playerActionAfterMove(int currentY, int currentX, int nextY, int nextX) {
+        // осуществляем проверку есть ли в ячейке враг
+        if (invisibleMap[nextX][nextX] == enemy) { // если в ячейке невидимой карты стоит враг
+            healthPlayer -= powerEnemy;
+            System.out.println("Вы встретили врага и получили урон " + powerEnemy + ". " +
+                    "Уровень Вашего здоровья " + healthPlayer);
+        }
+        map[positionPlayerY][positionPlayerX] = player;
+        invisibleMap[positionPlayerY][positionPlayerX] = readyCell;
+        map[currentY][currentX] = readyCell;
+
+    }
+
 
     // создаём метод для генерации числа в пределах граничных значений
     public static int randomRange(int min, int max) {
@@ -201,5 +214,11 @@ public class ConsoleGameApp {
         int value = random.nextInt(diff + 1);
         return min + value;
     }
+
+    // реализуем метод проверки жизни игрока (жив игрок ещё или уже склеил ласты...)
+    public static boolean isPlayerAlive(){
+        return healthPlayer > 0;
+    }
+
 
 }
