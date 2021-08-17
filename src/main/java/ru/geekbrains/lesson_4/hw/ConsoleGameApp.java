@@ -40,7 +40,7 @@ public class ConsoleGameApp {
     public static int healthEnemy; // задаём уровень здоровья игрока
     public static int powerEnemy; // задаём уровень мощности нанесения урона
     public static int valueEnemyMin = 15; // минимальный уровень параметров врага
-    public static int valueEnemyMax = 30; // максимальный уровень параметров врага
+    public static int valueEnemyMax = 20; // максимальный уровень параметров врага
 
     // опишем, как будем отмечать посещённые ячейки
     public static char readyCell = '*'; // пройденная ячейка
@@ -51,6 +51,10 @@ public class ConsoleGameApp {
         createPlayer(setRandomStartPositionPlayer);
         createEnemies();
         printMap();
+
+        changingPlayerPosition();
+        printMap();
+
 
     }
 
@@ -117,6 +121,77 @@ public class ConsoleGameApp {
         }
         System.out.println("Количество врагов на карте: " + countEnemies + ". Уровень здоровья врага: " + healthEnemy +
                 ". Уровень наносимого урона: " + powerEnemy);
+    }
+
+    // организуем движение игрока по карте
+    public static void changingPlayerPosition() {
+        int currentX = positionPlayerX;
+        int currentY = positionPlayerY;
+
+        int playerMove;
+
+        do {
+            //делаем первый шаг игрока по карте
+            System.out.print("Введите Ваш ход (UP = " + moveUp + "," +
+                    " DOWN = " + moveDown + "," +
+                    " LEFT = " + moveLeft + "," +
+                    " RIGHT = " + moveRight + "," +
+                    " RIGHT UP = " + moveRightUp + "," +
+                    " LEFT UP = " + moveLeftUp + "," +
+                    " RIGHT DOWN = " + moveRightDown + "," +
+                    " LEFT DOWN = " + moveLeftDown + ".) >>> "
+            );
+            playerMove = scanner.nextInt();
+
+            switch (playerMove) {
+                case moveUp:
+                    positionPlayerY -= 1;
+                    break;
+                case moveDown:
+                    positionPlayerY += 1;
+                    break;
+                case moveLeft:
+                    positionPlayerX -= 1;
+                    break;
+                case moveRight:
+                    positionPlayerX += 1;
+                    break;
+                case moveRightUp:
+                    positionPlayerY -= 1;
+                    positionPlayerX += 1;
+                    break;
+                case moveLeftUp:
+                    positionPlayerY -= 1;
+                    positionPlayerX -= 1;
+                    break;
+                case moveRightDown:
+                    positionPlayerY += 1;
+                    positionPlayerX += 1;
+                    break;
+                case moveLeftDown:
+                    positionPlayerY += 1;
+                    positionPlayerX -= 1;
+                    break;
+            }
+        } while (!isValidNextMove(currentY, currentX, positionPlayerY, positionPlayerX));
+
+        map[positionPlayerY][positionPlayerX] = player;
+        map[currentY][currentX] = readyCell;
+    }
+
+    // проверка нахождения игрока в пределах карты
+    public static boolean isValidNextMove(int currentY, int currentX, int nextY, int nextX) {
+        if (nextY >= 0 && nextY < heightMap && nextX >= 0 && nextX < widthMap) {
+            // если игрок сделал ход и остался в пределах карты возвращаем true, т.е. игрок может совершать движение дальше
+            System.out.println("Игрок перешел по координатам [ " + nextY + " : " + nextX + " ] удачно.");
+            return true;
+        } else {
+            // если игрок сделал ход и вышел за пределы карты возвращаем false и возвращаем его на прежнее поле
+            positionPlayerY = currentY;
+            positionPlayerX = currentX;
+            System.out.println("Неверный ход! Повторите ход ещё раз!");
+            return false;
+        }
     }
 
 
