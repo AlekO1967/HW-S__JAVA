@@ -14,6 +14,7 @@ public class ConsoleGameApp {
     public static int heightMap; // и высота
     public static int minMapSize = 5; // минимальное количество ячеек в карте
     public static int maxMapSize = 7; // максимальное количество ячеек в карте.
+    public static int countMapLevel = 1; // начальный уровень карты.
 
     // опишем параметры для создания игрока
     public static char player = '@'; // создаём символ видимости игрока
@@ -21,6 +22,7 @@ public class ConsoleGameApp {
     public static int powerPointPlayer = 30; // задаём уровень мощности нанесения урона
     public static int positionPlayerX; // координата игрока по Х
     public static int positionPlayerY; // координата игрока по У
+    public static int countPlayerStep = 0;
     public static boolean setRandomStartPositionPlayer = true;
 
     // опишем параметры движения игрока по карте
@@ -47,14 +49,38 @@ public class ConsoleGameApp {
     public static char emptyCell = '_'; // не пройденная ячейка
 
     public static void main(String[] args) {
+
+        while (isPlayerAlive()) {
+            System.out.println("***** Игра началась. Текущий уровень карты " + countMapLevel + " *****");
+            gameCycle();
+            countMapLevel++;
+
+        }
+        System.out.println("***** Игра закончена! Количество пройденных шагов : " + countPlayerStep +
+                " Пройдено " + countMapLevel + " уровней.");
+    }
+
+    public static void gameCycle() {
         createMap();
         createPlayer(setRandomStartPositionPlayer);
         createEnemies();
-        printMap();
+        // зацикливаем передвижения игрока при помощи цикла while и проверяем при этом уровень здоровья игрока
+        // и заполнение (прохождение) игроком карты
+        while (true) {
+            printMap();
+            System.out.println("Текущий уровень здоровья игрока - " + healthPlayer + " Количество пройденных шагов - " + countPlayerStep);
+            changingPlayerPosition();
 
-        changingPlayerPosition();
-        printMap();
+            if (!isPlayerAlive()) {
+                System.out.println("Игрок погиб!");
+                break;
+            }
 
+            if (isFullMap()) {
+                System.out.println("Задание выполнено! Вы победили!");
+                break;
+            }
+        }
 
     }
 
@@ -176,13 +202,14 @@ public class ConsoleGameApp {
         } while (!isValidNextMove(currentY, currentX, positionPlayerY, positionPlayerX));
 
         playerActionAfterMove(currentY, currentX, positionPlayerY, positionPlayerX);
+        ++countPlayerStep;
     }
 
     // проверка нахождения игрока в пределах карты
     public static boolean isValidNextMove(int currentY, int currentX, int nextY, int nextX) {
         if (nextY >= 0 && nextY < heightMap && nextX >= 0 && nextX < widthMap) {
             // если игрок сделал ход и остался в пределах карты возвращаем true, т.е. игрок может совершать движение дальше
-            System.out.println("Игрок перешел по координатам [ " + nextY + " : " + nextX + " ] удачно.");
+            System.out.println("Игрок перешел по координатам [ " + (nextY + 1) + " : " + (nextX + 1) + " ] удачно.");
             return true;
         } else {
             // если игрок сделал ход и вышел за пределы карты возвращаем false и возвращаем его на прежнее поле
@@ -196,7 +223,7 @@ public class ConsoleGameApp {
     // создаём метод действий игрока после совершения передвижения по карте
     public static void playerActionAfterMove(int currentY, int currentX, int nextY, int nextX) {
         // осуществляем проверку есть ли в ячейке враг
-        if (invisibleMap[nextX][nextX] == enemy) { // если в ячейке невидимой карты стоит враг
+        if (invisibleMap[nextY][nextX] == enemy) { // если в ячейке невидимой карты стоит враг
             healthPlayer -= powerEnemy;
             System.out.println("Вы встретили врага и получили урон " + powerEnemy + ". " +
                     "Уровень Вашего здоровья " + healthPlayer);
@@ -207,7 +234,6 @@ public class ConsoleGameApp {
 
     }
 
-
     // создаём метод для генерации числа в пределах граничных значений
     public static int randomRange(int min, int max) {
         int diff = max - min;
@@ -215,10 +241,20 @@ public class ConsoleGameApp {
         return min + value;
     }
 
-    // реализуем метод проверки жизни игрока (жив игрок ещё или уже склеил ласты...)
-    public static boolean isPlayerAlive(){
-        return healthPlayer > 0;
+    // реализуем метод проверки окончания карты (т.е. окончание игры)
+    public static boolean isFullMap() {
+        for (int y = 0; y < heightMap; y++) {
+            for (int x = 0; x < widthMap; x++) {
+                if (map[y][x] == emptyCell)
+                    return false;
+            }
+        }
+        return true;
     }
 
-
+    // реализуем метод проверки жизни игрока (жив игрок ещё или уже склеил ласты...)
+    public static boolean isPlayerAlive() {
+        return healthPlayer > 0;
+    }
 }
+
