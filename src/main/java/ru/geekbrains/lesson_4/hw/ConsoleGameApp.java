@@ -12,18 +12,22 @@ public class ConsoleGameApp {
     public static char[][] invisibleMap; // в игре существует невидимая копия карты на которой располагаются враги
     public static int widthMap; // у карты есть ширина
     public static int heightMap; // и высота
-    public static int minMapSize = 5; // минимальное количество ячеек в карте
-    public static int maxMapSize = 7; // максимальное количество ячеек в карте.
-    public static int countMapLevel = 1; // начальный уровень карты.
+    public static int minMapSize = 3; // минимальное количество ячеек в карте
+    public static int maxMapSize = 5; // максимальное количество ячеек в карте.
+    public static int countMapLevel = 0; // начальный уровень карты.
+
+    // параметры точки выхода из карты
+    public static char exit = 'Q'; // создаём символ точки выхода из карты.
+    public static boolean exitPoint = false; //создаём логическую переменную точки выхода.
 
     // опишем параметры для создания игрока
     public static char player = '@'; // создаём символ видимости игрока
     public static int healthPlayer = 100; // задаём уровень здоровья игрока
-    public static int powerPointPlayer = 30; // задаём уровень мощности нанесения урона
+    public static int powerPlayer = 30; // задаём уровень мощности нанесения урона
     public static int positionPlayerX; // координата игрока по Х
     public static int positionPlayerY; // координата игрока по У
     public static int countPlayerStep = 0;
-    public static boolean setRandomStartPositionPlayer = true;
+    public static boolean setRandomStartPositionPlayer = false;
 
     // опишем параметры движения игрока по карте
     // особенность этих переменных в том, что они всегда должны быть постоянными,
@@ -51,10 +55,9 @@ public class ConsoleGameApp {
     public static void main(String[] args) {
 
         while (isPlayerAlive()) {
+            ++countMapLevel;
             System.out.println("***** Игра началась. Текущий уровень карты " + countMapLevel + " *****");
             gameCycle();
-            countMapLevel++;
-
         }
         System.out.println("***** Игра закончена! Количество пройденных шагов : " + countPlayerStep +
                 " Пройдено " + countMapLevel + " уровней.");
@@ -64,6 +67,8 @@ public class ConsoleGameApp {
         createMap();
         createPlayer(setRandomStartPositionPlayer);
         createEnemies();
+        pointExit();
+
         // зацикливаем передвижения игрока при помощи цикла while и проверяем при этом уровень здоровья игрока
         // и заполнение (прохождение) игроком карты
         while (true) {
@@ -80,8 +85,12 @@ public class ConsoleGameApp {
                 System.out.println("Задание выполнено! Вы победили!");
                 break;
             }
-        }
 
+            if (exitPoint) {
+                System.out.println("БОНУС! Игрок перешёл на следующий уровень!");
+                break;
+            }
+        }
     }
 
     // создаём карту
@@ -134,19 +143,32 @@ public class ConsoleGameApp {
         int enemyPozX; // объявляем переменные в которые передадим координаты врага
         int enemyPozY;
 
-        int countEnemies = (maxMapSize + minMapSize) / 5; // задаём количество врагов на карте в зависимости от размеров карты
+        int countEnemies = (maxMapSize + minMapSize) / 4; // задаём количество врагов на карте в зависимости от размеров карты
         // расставляем врагов на карте применяя цикл for
         for (int i = 0; i < countEnemies; i++) {
             // и do-while, для того чтобы исключить расположение игрока и врага в одной и той же ячейке
             do {
                 enemyPozX = random.nextInt(widthMap);
                 enemyPozY = random.nextInt(heightMap);
-            } while (positionPlayerX == enemyPozX && positionPlayerY == enemyPozY);
+            } while (enemyPozX == positionPlayerX && enemyPozY == positionPlayerY);
 
             invisibleMap[enemyPozY][enemyPozX] = enemy;
         }
         System.out.println("Количество врагов на карте: " + countEnemies + ". Уровень здоровья врага: " + healthEnemy +
                 ". Уровень наносимого урона: " + powerEnemy);
+    }
+
+    public static void pointExit() { //метод определения координат точки выхода
+        int exitX;
+        int exitY;
+
+        do {
+            exitX = random.nextInt(widthMap);
+            exitY = random.nextInt(heightMap);
+        } while (invisibleMap[exitY][exitX] == enemy || map[exitY][exitX] == player);
+
+        invisibleMap[exitY][exitX] = exit;
+
     }
 
     // организуем движение игрока по карте
@@ -225,9 +247,20 @@ public class ConsoleGameApp {
         // осуществляем проверку есть ли в ячейке враг
         if (invisibleMap[nextY][nextX] == enemy) { // если в ячейке невидимой карты стоит враг
             healthPlayer -= powerEnemy;
-            System.out.println("Вы встретили врага и получили урон " + powerEnemy + ". " +
+            System.out.println("Вас атаковал враг и нанёс урон " + powerEnemy + ". " +
                     "Уровень Вашего здоровья " + healthPlayer);
         }
+
+        if (invisibleMap[nextY][nextX] == enemy) { // если в ячейке невидимой карты стоит враг, игрок его атакует
+            healthEnemy -= powerPlayer;
+            System.out.println("Вы атаковали врага и он получили урон " + powerPlayer + ". " +
+                    "Уровень здоровья врага " + healthEnemy);
+        }
+
+        if (invisibleMap[nextY][nextX] == exit) { // попадание в точку выхода
+            exitPoint = true;
+        }
+
         map[positionPlayerY][positionPlayerX] = player;
         invisibleMap[positionPlayerY][positionPlayerX] = readyCell;
         map[currentY][currentX] = readyCell;
@@ -256,5 +289,5 @@ public class ConsoleGameApp {
     public static boolean isPlayerAlive() {
         return healthPlayer > 0;
     }
-}
 
+}
