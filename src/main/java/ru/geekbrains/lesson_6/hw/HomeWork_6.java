@@ -2,10 +2,10 @@ package ru.geekbrains.lesson_6.hw;
 
 public class HomeWork_6 {
     public static void main(String[] args) {
-        Dog dog1 = new Dog("Golden Retriver", "Origami", 500, 10, 0, 0);
-        Dog dog2 = new Dog("Golden Retriver", "Little Miracle", 500, 10, 0, 0);
-        Cat cat1 = new Cat("Maikun", "Nova", 200, 0, 0, 0);
-        Cat cat2 = new Cat("SredneRusskaia", "Murka", 200, 0, 0, 0);
+        Dog dog1 = new Dog("Golden Retriver", "Origami", 500, 10);
+        Dog dog2 = new Dog("Golden Retriver", "Little Miracle", 500, 10);
+        Cat cat1 = new Cat("Maikun", "Nova", 200, 0);
+        Cat cat2 = new Cat("SredneRusskaia", "Murka", 200, 0);
 
         dog1.run(350);
         dog1.swim(8);

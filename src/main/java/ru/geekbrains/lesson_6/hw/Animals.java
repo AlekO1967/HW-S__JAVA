@@ -9,7 +9,7 @@ public class Animals {
     private int distanceSwim;
     public static int countAnimal = 0;
 
-    public Animals(String breed, String name, int maxRun, int maxSwim, int distanceRun, int distanceSwim) {
+    public Animals(String breed, String name, int maxRun, int maxSwim) {
         this.breed = breed;
         this.name = name;
         this.maxRun = maxRun;
@@ -19,9 +19,9 @@ public class Animals {
         countAnimal++;
     }
 
-    void run(int length) {
-        if (distanceRun + length < maxRun) {
-            distanceRun += length;
+    void run(int distance) {
+        if (distanceRun + distance < maxRun) {
+            distanceRun += distance;
             System.out.println(breed + " " + name + " пробежала " + distanceRun + " метров");
         } else {
             distanceRun = maxRun;
@@ -29,9 +29,9 @@ public class Animals {
         }
     }
 
-    void swim(int length) {
-        if (distanceSwim + length < maxSwim) {
-            distanceSwim += length;
+    void swim(int distance) {
+        if (distanceSwim + distance < maxSwim) {
+            distanceSwim += distance;
             System.out.println(breed + " " + name + " проплыла " + distanceSwim+ " метров");
         } else {
             distanceSwim = maxSwim;
@@ -40,6 +40,7 @@ public class Animals {
     }
 
     public static int getNumOfInstances() {
+
         return countAnimal;
     }
 
